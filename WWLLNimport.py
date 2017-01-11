@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Import WWLLN lightning data into Valve"""
+"""Import WWLLN lightning data into Valve."""
 
 import argparse
 import json

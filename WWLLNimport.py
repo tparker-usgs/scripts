@@ -3,18 +3,18 @@
 """Import WWLLN lightning data into Valve."""
 
 import argparse
-import json
-from time import mktime
-from datetime import timedelta, date
-import re
-import logging
 import cStringIO
+from datetime import timedelta, date
+import json
+import logging
 import os
+import re
+from time import mktime
 
-import MySQLdb
 import dateutil.parser  # aka python-dateutil
-import xmltodict
+import MySQLdb
 import pycurl
+import xmltodict
 
 J2KOFFSET = -946728000
 

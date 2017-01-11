@@ -29,8 +29,8 @@ WWLLN_PATTERN = r'href="(.*\.kml)"'
 # 2012-12-16T00:38:60Z
 WWLLN_BAD_DATE = re.compile(r'(.{16}):60Z')
 
-
 TMP_DIR = "/tmp/"
+
 
 class ImportLightning(object):
     """Import WWLLN data into Valave.
@@ -136,7 +136,7 @@ def timestamp_to_j2ksec(timestamp):
         offset += 1
         timestamp = matcher.group(1) + ":59Z"
 
-    #pylint: disable=maybe-no-member
+    # pylint: disable=maybe-no-member
     return mktime(dateutil.parser.parse(timestamp).timetuple()) + offset
 
 

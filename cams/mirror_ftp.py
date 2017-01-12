@@ -28,7 +28,7 @@ OUT_DIR = os.environ['OUT_DIR']
 
 ONE_DAY = timedelta(days=1)
 
-CAM_DATE = re.compile(r'^(.*)-[0-9]{8}_[0-9]{4}(\..*)$')
+CAM_DATE = re.compile(r'^(.*)-(\d{8}_\d{4})(\..*)$')
 
 def get_dir(ftp, remote_dir=''):
     """ return a list of files in a directory """
@@ -46,8 +46,11 @@ def get_dir(ftp, remote_dir=''):
 def get_path(image):
     """ provide a formated path given a file name """
 
-    date = image[-17:-4]
-    cam = image[:-18]
+    matcher = CAM_DATE.match(image)
+    cam = matcher.group(1)
+    date = matcher.group(2)
+    #date = image[-17:-4]
+    #cam = image[:-18]
 
     image_date = datetime.strptime(date, '%Y%m%d_%H%M')
     image_name = datetime.strftime(image_date, '%Y/%m/%d')
@@ -60,6 +63,9 @@ def discover_images(ftp, cam):
     images = []
 
     for image in get_dir(ftp, cam):
+        matcher = CAM_DATE.match(image)
+        if not matcher:
+            continue
         outpath = get_path(image)
         if outpath:
             out_image = os.path.join(OUT_DIR, outpath, image)
@@ -104,7 +110,7 @@ def main():
 
         matcher = CAM_DATE.match(os.path.basename(last_image))
         if matcher:
-            link = os.path.join(OUT_DIR, matcher.group(1) + matcher.group(2))
+            link = os.path.join(OUT_DIR, matcher.group(1) + matcher.group(3))
             image = os.path.join(OUT_DIR,
                                  get_path(os.path.basename(last_image)),
                                  os.path.basename(last_image))

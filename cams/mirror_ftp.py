@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-
-# -*- coding: utf-8 -*-
-
+#
 # I waive copyright and related rights in the this work worldwide
 # through the CC0 1.0 Universal public domain dedication.
 # https://creativecommons.org/publicdomain/zero/1.0/legalcode
-
+#
 # Author(s):
 #   Tom Parker <tparker@usgs.gov>
+#
 
 """ Retrieve avo webcam images from FTP server. """
 
@@ -24,15 +23,16 @@ TIMEOUT = 10
 FTP_HOST = os.environ['FTP_HOST']
 FTP_USER = os.environ['FTP_USER']
 FTP_PASSWD = os.environ['FTP_PASSWD']
+TMP_DIR = os.environ['TMP_DIR']
+OUT_DIR = os.environ['OUT_DIR']
 
-TMP_DIR = '/www/avosouth.wr.usgs.gov/htdocs/tmp/'
-OUT_DIR = '/www/avosouth.wr.usgs.gov/htdocs/cam/'
 ONE_DAY = timedelta(days=1)
 
 CAM_DATE = re.compile(r'^(.*)-[0-9]{8}_[0-9]{4}(\..*)$')
 
 def get_dir(ftp, remote_dir=''):
     """ return a list of files in a directory """
+
     lines = []
     ftp.retrlines('LIST ' + remote_dir, lines.append)
 
@@ -45,6 +45,7 @@ def get_dir(ftp, remote_dir=''):
 
 def get_path(image):
     """ provide a formated path given a file name """
+
     date = image[-17:-4]
     cam = image[:-18]
 
@@ -55,6 +56,7 @@ def get_path(image):
 
 def discover_images(ftp, cam):
     """ find new images in a cam directory """
+
     images = []
 
     for image in get_dir(ftp, cam):
@@ -69,6 +71,7 @@ def discover_images(ftp, cam):
 
 def fetch_image(ftp, image_path):
     """ retrieve a single image """
+
     logging.info("Fetching %s", image_path)
     image = os.path.basename(image_path)
     tmp_file = os.path.join(TMP_DIR, image)
@@ -88,6 +91,7 @@ def fetch_image(ftp, image_path):
 
 def main():
     """ mirror a directory of cam images """
+
     ftp_conn = FTP(FTP_HOST, FTP_USER, FTP_PASSWD, timeout=TIMEOUT)
 
     cams = get_dir(ftp_conn)

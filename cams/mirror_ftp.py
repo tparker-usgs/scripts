@@ -17,12 +17,10 @@ import os.path
 import shutil
 import re
 
-NUM_CONN = 5
-TIMEOUT = 10
-
 FTP_HOST = os.environ['FTP_HOST']
 FTP_USER = os.environ['FTP_USER']
 FTP_PASSWD = os.environ['FTP_PASSWD']
+FTP_TIMEOUT = float(os.environ['FTP_TIMEOUT'])
 TMP_DIR = os.environ['TMP_DIR']
 OUT_DIR = os.environ['OUT_DIR']
 
@@ -98,7 +96,7 @@ def fetch_image(ftp, image_path):
 def main():
     """ mirror a directory of cam images """
 
-    ftp_conn = FTP(FTP_HOST, FTP_USER, FTP_PASSWD, timeout=TIMEOUT)
+    ftp_conn = FTP(FTP_HOST, FTP_USER, FTP_PASSWD, timeout=FTP_TIMEOUT)
 
     cams = get_dir(ftp_conn)
     for cam in cams:

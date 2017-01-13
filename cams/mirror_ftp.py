@@ -26,7 +26,7 @@ OUT_DIR = os.environ['OUT_DIR']
 
 ONE_DAY = timedelta(days=1)
 
-CAM_DATE = re.compile(r'^(.*)-(\d{8}_\d{4})(\..*)$')
+CAM_DATE = re.compile(r'^(.*)-(\d{8}_\d{4})(\.\w{3})$')
 
 def get_dir(ftp, remote_dir=''):
     """ return a list of files in a directory """

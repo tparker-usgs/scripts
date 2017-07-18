@@ -8,10 +8,10 @@ do
     fi
 done
 
-if [ "X$DEAD" != "X" ]; then
+if [ "X$DEAD" == "X" ]; then
+    echo "OK - Found $@"
+    exit 0
+else
     echo "CRITICAL - missing containers: $DEAD."
     exit 2
-else
-    echo "OK - All containers running"
-    exit 0
 fi
